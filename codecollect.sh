@@ -21,8 +21,9 @@ process_directory() {
                 echo "Processing: $entry"
 
                 relative_path=$(echo "$entry" | sed "s|^$directory/||")
+                extension="${entry##*.}"
 
-                echo '```rs' >> $output_file
+                echo "\`\`\`$extension" >> $output_file
                 echo "// $relative_path" >> $output_file
                 cat "$entry" >> $output_file
                 echo -e '\n' >> $output_file
