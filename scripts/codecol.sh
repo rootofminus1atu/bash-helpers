@@ -51,6 +51,18 @@ allowed_ext=(
     "yml"
     "toml"
     "svelte"
+    "sql"
+    "conf"
+    "service"
+    "mjs"
+    "txt"
+)
+
+allowed_names=(
+    "Dockerfile"
+    "Containerfile"
+    "Justfile"
+    "Makefile"
 )
 
 
@@ -110,13 +122,23 @@ is_ignored() {
 
 is_allowed_extension() {
     local file="$1"
+    local filename
+    filename="$(basename "$file")"
     local ext="${file##*.}"
 
-    for allowed in "${allowed_ext[@]}"; do
-        if [[ "$ext" == "$allowed" ]]; then
+    for name in "${allowed_names[@]}"; do
+        if [[ "${filename,,}" == "${name,,}" || "${filename,,}" == "${name,,}."* ]]; then
             return 0
         fi
     done
+
+    if [[ "$filename" == *.* ]]; then
+        for allowed in "${allowed_ext[@]}"; do
+            if [[ "$ext" == "$allowed" ]]; then
+                return 0
+            fi
+        done
+    fi
 
     return 1
 }
