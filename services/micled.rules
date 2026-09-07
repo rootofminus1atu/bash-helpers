@@ -1,0 +1,1 @@
+SUBSYSTEM=="leds", KERNEL=="hda::micmute", RUN+="/bin/chgrp input /sys/class/leds/hda::micmute/brightness", RUN+="/bin/chmod g+w /sys/class/leds/hda::micmute/brightness"
